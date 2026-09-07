@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ app_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+  <header class="bar">
+    <h1>{{ app_name }}</h1>
+    <div class="bar-right">
+      <span class="readout" id="fps">-- fps</span>
+      <span class="lamp" id="lamp" data-state="wait"></span>
+      <span class="readout" id="status">iniciando</span>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="viewport">
+      <img id="live" alt="Vista de la camara">
+      <p class="fault" id="fault" hidden></p>
+      <div class="viewport-foot">
+        <button class="btn btn-ghost" id="btn-read">Leer etiqueta ahora</button>
+        <span class="readout" id="stability">estabilidad 0</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="crop-strip">
+        <img id="crop" alt="Recorte de la etiqueta leida">
+        <p id="crop-empty">Aun no se ha leido ninguna etiqueta.</p>
+      </div>
+
+      <form id="form" autocomplete="off">
+        {% for f in fields %}
+        <div class="field" data-key="{{ f.key }}">
+          <label for="f-{{ f.key }}">{{ f.label }}{% if f.required %} <span class="req">obligatorio</span>{% endif %}</label>
+          <input id="f-{{ f.key }}" name="{{ f.key }}" type="text" spellcheck="false">
+          <span class="conf" data-conf="0">sin leer</span>
+        </div>
+        {% endfor %}
+
+        <div class="actions">
+          <button type="button" class="btn btn-quiet" id="btn-clear">Limpiar campos</button>
+          <button type="button" class="btn btn-primary" id="btn-print">Imprimir etiqueta nueva</button>
+        </div>
+        <p class="toast" id="toast" hidden></p>
+      </form>
+
+      <details class="history">
+        <summary>Ultimos re-etiquetados</summary>
+        <ul id="history-list"><li class="empty">Sin registros todavia.</li></ul>
+      </details>
+    </section>
+  </main>
+
+  <script>window.FIELD_KEYS = {{ fields | map(attribute='key') | list | tojson }};</script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

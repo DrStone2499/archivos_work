@@ -1,0 +1,39 @@
+{
+  "camera": {
+    "backend": "usb",
+    "index": 0,
+    "serial": "",
+    "width": 1920,
+    "height": 1080,
+    "exposure_us": 8000,
+    "fps": 15
+  },
+  "detector": {
+    "model_path": "models/boxes_labels.pt",
+    "conf": 0.45,
+    "iou": 0.5,
+    "imgsz": 960,
+    "class_box": "caja",
+    "class_label": "etiqueta",
+    "device": "cpu"
+  },
+  "ocr": {
+    "engine": "easyocr",
+    "languages": ["es", "en"],
+    "min_confidence": 0.35,
+    "upscale": 2.0
+  },
+  "printer": {
+    "enabled": true,
+    "host": "192.168.1.50",
+    "port": 9100,
+    "template": "zpl/etiqueta.zpl",
+    "timeout_s": 5
+  },
+  "pipeline": {
+    "stable_frames": 8,
+    "auto_read": true,
+    "stream_quality": 70,
+    "stream_max_width": 1024
+  }
+}

@@ -1,0 +1,133 @@
+:root {
+  --steel-900: #171d23;
+  --steel-800: #1e262e;
+  --steel-700: #2a343d;
+  --steel-500: #55636f;
+  --ink: #e6ecf1;
+  --ink-dim: #93a2b0;
+  --go: #2fa86b;
+  --hold: #d99019;
+  --stop: #d1495b;
+  --wire: #4c8dff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--steel-900);
+  color: var(--ink);
+  font-family: "Segoe UI", "Inter", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 14px 22px;
+  background: var(--steel-800);
+  border-bottom: 2px solid var(--steel-700);
+}
+.bar h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .01em; }
+.bar-right { display: flex; align-items: center; gap: 14px; }
+
+.readout {
+  font-family: "Consolas", "SF Mono", monospace;
+  font-size: .85rem; color: var(--ink-dim);
+}
+.lamp {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--steel-500);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.04);
+}
+.lamp[data-state="go"]   { background: var(--go); }
+.lamp[data-state="hold"] { background: var(--hold); }
+.lamp[data-state="stop"] { background: var(--stop); }
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(360px, .9fr);
+  gap: 18px; padding: 18px;
+  align-items: start;
+}
+
+.viewport {
+  background: #0d1216;
+  border: 1px solid var(--steel-700);
+  padding: 10px;
+}
+.viewport img { width: 100%; display: block; background: #0d1216; }
+.viewport-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding-top: 10px;
+}
+.fault {
+  margin: 10px 0 0; padding: 10px 12px;
+  background: rgba(209,73,91,.12);
+  border-left: 4px solid var(--stop);
+  color: #f3c3c9; font-size: .9rem;
+}
+
+.panel { display: flex; flex-direction: column; gap: 16px; }
+
+.crop-strip {
+  background: var(--steel-800);
+  border: 1px solid var(--steel-700);
+  padding: 10px; min-height: 88px;
+  display: flex; align-items: center; justify-content: center;
+}
+.crop-strip img { max-width: 100%; max-height: 160px; display: none; }
+.crop-strip p { margin: 0; color: var(--ink-dim); font-size: .9rem; }
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px; margin-bottom: 14px;
+}
+.field label { grid-column: 1 / -1; font-size: .85rem; color: var(--ink-dim); }
+.field .req { color: var(--hold); font-size: .75rem; }
+.field input {
+  grid-column: 1 / -1;
+  width: 100%; padding: 12px 14px;
+  background: var(--steel-800);
+  border: 1px solid var(--steel-700);
+  border-left: 4px solid var(--steel-500);
+  color: var(--ink);
+  font-family: "Consolas", "SF Mono", monospace;
+  font-size: 1.15rem;
+}
+.field input:focus {
+  outline: 2px solid var(--wire); outline-offset: 1px;
+  border-color: var(--wire);
+}
+.field.high input { border-left-color: var(--go); }
+.field.low input  { border-left-color: var(--hold); }
+.conf { grid-column: 1 / -1; font-size: .75rem; color: var(--ink-dim); }
+.field.low .conf { color: var(--hold); }
+
+.actions { display: flex; gap: 10px; margin-top: 6px; }
+.btn {
+  padding: 14px 18px; border: 1px solid var(--steel-700);
+  background: var(--steel-800); color: var(--ink);
+  font-size: 1rem; cursor: pointer;
+}
+.btn:focus-visible { outline: 2px solid var(--wire); outline-offset: 2px; }
+.btn-primary { background: var(--go); border-color: var(--go); color: #06180f; font-weight: 600; flex: 1; }
+.btn-primary:disabled { background: var(--steel-700); border-color: var(--steel-700); color: var(--ink-dim); cursor: not-allowed; }
+.btn-ghost { border-color: var(--wire); color: #cfe0ff; }
+
+.toast { margin: 14px 0 0; padding: 12px 14px; font-size: .95rem; border-left: 4px solid var(--go); background: rgba(47,168,107,.12); }
+.toast[data-kind="error"] { border-left-color: var(--stop); background: rgba(209,73,91,.12); }
+
+.history { border-top: 1px solid var(--steel-700); padding-top: 10px; }
+.history summary { cursor: pointer; color: var(--ink-dim); font-size: .9rem; }
+.history ul { list-style: none; margin: 10px 0 0; padding: 0; font-family: "Consolas", monospace; font-size: .85rem; }
+.history li { padding: 6px 0; border-bottom: 1px solid var(--steel-800); color: var(--ink-dim); }
+
+@media (max-width: 1000px) {
+  .stage { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
